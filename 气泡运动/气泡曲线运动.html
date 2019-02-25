@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body{
+      background: grey;
+    }
+    #myCanvas{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      background: white;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="400" height="400"></canvas>
+
+<script>
+  window.onload = function () {
+   var myCanvas = document.getElementById('myCanvas');
+   var painting = myCanvas.getContext('2d');
+   var arr = [];
+   //放到画布上
+   setInterval(function () {
+       painting.clearRect(0,0,myCanvas.width,myCanvas.height);
+       //加工圆
+       for(var j=0;j<arr.length;j++){
+           var item = arr[j];
+           item.deg++;
+           item.x =item.startX + Math.sin(item.deg*Math.PI/180)*150;
+           item.y = item.startY - (item.deg*Math.PI/180)*70;
+           if(item.y+item.r <0 ){
+               arr.splice(j,1);
+           }
+       }
+
+       //画圆
+       for(var i=0;i<arr.length;i++){
+           var item = arr[i];
+           painting.beginPath();
+           painting.arc(item.x,item.y,item.r,0,2*Math.PI);
+           painting.fillStyle = 'rgba('+ item.red +','+ item.green +','+ item.blue +','+ item.a +')';
+           painting.fill();
+       }
+
+   },18);
+    //创建圆
+   setInterval(function () {
+      var obj = {};
+      obj.r = Math.floor(Math.random()*8 + 4);
+      obj.x = Math.floor(Math.random()*myCanvas.width);
+      obj.y = myCanvas.height + obj.r;
+      obj.red = Math.floor(Math.random()*255);
+       obj.green = Math.floor(Math.random()*255);
+       obj.blue = Math.floor(Math.random()*255);
+       obj.a = 1;
+       arr.push(obj);
+       obj.startX = obj.x;
+       obj.startY = obj.y;
+       obj.deg = 0;
+
+   },16)
+
+  }
+</script>
+
+</body>
+</html>

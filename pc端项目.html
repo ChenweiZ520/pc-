@@ -261,7 +261,7 @@
                          </p>
                      </div>
                      <div class="team3">
-                         <ul class="team3List">
+                         <ul class="team3List clearfix">
                              <li class="team3Item"></li>
                              <li class="team3Item"></li>
                              <li class="team3Item"></li>
@@ -270,6 +270,13 @@
                      </div>
                  </div>
              </li>
+         </ul>
+         <ul class="menuList">
+             <li class="menuItem active"></li>
+             <li class="menuItem"></li>
+             <li class="menuItem"></li>
+             <li class="menuItem"></li>
+             <li class="menuItem"></li>
          </ul>
      </section>
  </div>
@@ -286,12 +293,20 @@
         var liItems = document.querySelectorAll('#header .headerMain .nav .navList .liItem');
         var homeIcons = document.querySelectorAll('#conWrap .conList .home .homeNav .homeIcon');
         var homeItems = document.querySelectorAll('#conWrap .conList .home .homeList .homeItem');
+        var team3Items = document.querySelectorAll('#conWrap .conList .team .team3 .team3List .team3Item');
+        var team3 = document.querySelector('#conWrap .conList .team .team3');
+        var menuItems = document.querySelectorAll('#conWrap .menuList .menuItem');
+
 
         var index = 0;
         var oldIdex = 0; //第一屏小圆点切换索引
         var timer = null;
         var autoTimer = null;
         var isMoving = false;
+        var myCanvas = null;
+        var timer1 = null;
+        var timer2 = null;
+
         //处理第一个up高亮
         ups[index].style.width = '100%';
         //初始化三角的位置
@@ -323,9 +338,11 @@
             //1、清除高亮样式
             for (var j = 0;j<ups.length;j++) {
                 ups[j].style.width = '';
+                menuItems[j].className = 'menuItem';
             }
             //2、点击那个up高亮
             ups[index].style.width = '100%';
+            menuItems[index].className = 'menuItem active';
             //3、移动到当前位置
             arrow.style.left = liItems[index].getBoundingClientRect().left + liItems[index].offsetWidth/2+'px';
             //移动内容区
@@ -473,6 +490,101 @@
                 }
             },3000)
         }
+
+        //第五屏气泡逻辑
+        team();
+        function team() {
+            for (var i = 0;i<team3Items.length;i++){
+                var item = team3Items[i];
+                item.onmouseenter = function () {
+                    for(var j=0;j<team3Items.length;j++){
+                        team3Items[j].style.opacity = '0.5';
+                    }
+                    this.style.opacity = '1';
+                    if(!myCanvas){
+                        myCanvas = document.createElement('canvas');
+                        myCanvas.width = this.offsetWidth;
+                        myCanvas.height = this.offsetHeight;
+//                    myCanvas.style.background  = 'gray';
+                        team3.appendChild(myCanvas);
+                        addAnimation();
+                    }
+                    myCanvas.style.left = this.offsetLeft + 'px';
+                }
+            }
+            team3.onmouseleave = function () {
+                for (var i = 0;i<team3Items.length;i++){
+                    team3Items[i].style.opacity = '0.5';
+                }
+                myCanvas.remove();
+                myCanvas = null;
+                clearInterval(timer1);
+                clearInterval(timer2);
+            };
+        }
+        //给画布添加气泡动画
+        function addAnimation() {
+            var painting = myCanvas.getContext('2d');
+            var arr = [];
+            //放到画布上
+            timer1 = setInterval(function () {
+                painting.clearRect(0,0,myCanvas.width,myCanvas.height);
+                //加工圆
+                for(var j=0;j<arr.length;j++){
+                    var item = arr[j];
+                    item.deg++;
+                    item.x =item.startX + Math.sin(item.deg*Math.PI/180)*80;
+                    item.y = item.startY - (item.deg*Math.PI/180)*80;
+                    if(item.y+item.r <0 ){
+                        arr.splice(j,1);
+                    }
+                }
+
+                //画圆
+                for(var i=0;i<arr.length;i++){
+                    var item = arr[i];
+                    painting.beginPath();
+                    painting.arc(item.x,item.y,item.r,0,2*Math.PI);
+                    painting.fillStyle = 'rgba('+ item.red +','+ item.green +','+ item.blue +','+ item.a +')';
+                    painting.fill();
+                }
+
+            },18);
+            //创建圆
+            timer2 = setInterval(function () {
+                var obj = {};
+                obj.r = Math.floor(Math.random()*8 + 4);
+                obj.x = Math.floor(Math.random()*myCanvas.width);
+                obj.y = myCanvas.height + obj.r;
+                obj.red = Math.floor(Math.random()*255);
+                obj.green = Math.floor(Math.random()*255);
+                obj.blue = Math.floor(Math.random()*255);
+                obj.a = 1;
+                arr.push(obj);
+                obj.startX = obj.x;
+                obj.startY = obj.y;
+                obj.deg = 0;
+
+            },16)
+        }
+
+        //左侧小圆点点击事件
+        for (var i = 0; i < menuItems.length; i++) {
+            var item = menuItems[i];
+            item.index = i;
+            item.onclick = function () {
+//                for (var j=0;j<menuItems.length;j++){
+//                    menuItems[j].className = 'menuItem';
+//                }
+//                this.className = 'menuItem active';
+                //切换到点击的那一屏
+                conMove(this.index);
+                //维护鼠标滚轮计数器
+                index = this.index;
+            }
+
+        }
+
 
     }
 </script>
