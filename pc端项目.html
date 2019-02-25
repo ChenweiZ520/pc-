@@ -17,6 +17,10 @@
                     <img src="img/logo.png" alt="尚硅谷教育">
                 </a>
             </h1>
+             <!--音乐-->
+             <div class="music">
+                 <audio src="img/audio.mp3"></audio>
+             </div>
              <!--右侧导航区-->
             <nav class="nav">
                 <ul class="navList">
@@ -286,6 +290,8 @@
     window.onload = function () {
         var conWrap = document.getElementById('conWrap');
         var header = document.getElementById('header');
+        var myMusic = document.querySelector('#header .headerMain .music');
+        var myAudio = document.querySelector('#header .headerMain .music>audio');
         var conList = document.querySelector('#conWrap .conList');
         var conItems = document.querySelectorAll('#conWrap .conList .conItem');
         var arrow = document.querySelector('#header .headerMain .arrow');
@@ -569,21 +575,36 @@
         }
 
         //左侧小圆点点击事件
-        for (var i = 0; i < menuItems.length; i++) {
-            var item = menuItems[i];
-            item.index = i;
-            item.onclick = function () {
+        menuClick();
+        function menuClick() {
+            for (var i = 0; i < menuItems.length; i++) {
+                var item = menuItems[i];
+                item.index = i;
+                item.onclick = function () {
 //                for (var j=0;j<menuItems.length;j++){
 //                    menuItems[j].className = 'menuItem';
 //                }
 //                this.className = 'menuItem active';
-                //切换到点击的那一屏
-                conMove(this.index);
-                //维护鼠标滚轮计数器
-                index = this.index;
-            }
+                    //切换到点击的那一屏
+                    conMove(this.index);
+                    //维护鼠标滚轮计数器
+                    index = this.index;
+                }
 
+            }
         }
+
+        //音乐
+        myMusic.onclick = function () {
+            if(myAudio.paused){
+                myAudio.play();
+                myMusic.style.backgroundImage = 'url("img/musicon.gif")';
+            }else{
+                myAudio.pause();
+                myMusic.style.backgroundImage = 'url("img/musicoff.gif")';
+            }
+        }
+
 
 
     }
