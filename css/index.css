@@ -17,6 +17,39 @@ img{display: block;}
 #wrap{
     width:100%;
 }
+/*开机动画*/
+#wrap #mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+#wrap #mask>div{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #009ee0;
+    transition: 1s linear;
+}
+#wrap #mask .maskUp{
+    top: 0;
+}
+#wrap #mask .maskDown{
+    bottom: 0;
+}
+#wrap #mask .maskLine{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 0%;
+    height: 6px;
+    background: white;
+    z-index: 100;
+    transition: 1s;
+}
 /*头部*/
 #header{
     position: relative;
@@ -129,6 +162,7 @@ img{display: block;}
     height: 520px;
     transform-style: preserve-3d;
     perspective: 1000px;
+    transition: 1s;
 }
 #conWrap .conList .home .homeList .homeItem{
     position: absolute;
@@ -163,6 +197,7 @@ img{display: block;}
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
+    transition: 1s;
 }
 #conWrap .conList .home .homeNav .homeIcon{
     float: left;
@@ -216,10 +251,15 @@ img{display: block;}
     100%{transform: translateZ(-250px)}
 }
 /*第二屏*/
+#conWrap .conList .course{
+    overflow: hidden;
+}
 #conWrap .conList .course .course1{
     margin: 50px;
 }
 #conWrap .conList .course .course2{
+    position: relative;
+    z-index: 10;
     width: 400px;
     margin-left: 50px;
 }
@@ -229,6 +269,7 @@ img{display: block;}
     top: 70px;
     width: 480px;
     transform-style: preserve-3d;
+    z-index: 10;
 }
 #conWrap .conList .course .course3 .course3Item{
     position: relative;
@@ -283,11 +324,43 @@ img{display: block;}
 #conWrap .conList .course .course3 .plus:nth-child(5){
     left: 474px;
 }
+#conWrap .conList .course .plane1{
+    width:359px;
+    height:283px;
+    background:url("../img/plane1.png") no-repeat;
+    position:absolute;
+    left:300px;
+    top:-100px;
+    transition:1s;
+}
+#conWrap .conList .course .plane2{
+    width:309px;
+    height:249px;
+    background:url("../img/plane2.png") no-repeat;
+    position:absolute;
+    left:-100px;
+    top:200px;
+    transition:1s;
+}
+#conWrap .conList .course .plane3{
+    width:230px;
+    height:182px;
+    background:url("../img/plane3.png") no-repeat;
+    position:absolute;
+    left:300px;
+    top:400px;
+    transition:1s;
+}
 /*第三屏*/
+#conWrap .conList .works{
+    overflow: hidden;
+}
 #conWrap .conList .works .works1{
     margin: 50px 0px 100px 50px;
 }
 #conWrap .conList .works .works2{
+    position: relative;
+    z-index: 10;
     margin-left: 50px;
 }
 #conWrap .conList .works .works2 .works2Item{
@@ -344,6 +417,7 @@ img{display: block;}
     width: 167px;
     height: 191px;
     animation: robotMove 5s linear infinite;
+    z-index: 10;
 }
 @keyframes robotMove {
     0%{transform: rotateY(0deg);}
@@ -351,7 +425,37 @@ img{display: block;}
     50%{transform: rotateY(180deg);}
     100%{transform: rotateY(180deg);}
 }
+#conWrap .conList .works .pencel1{
+    width:180px;
+    height:97px;
+    background:url("../img/pencel1.png") no-repeat;
+    position:absolute;
+    transition:1s;
+    left:500px;
+    top:0;
+}
+#conWrap .conList .works .pencel2{
+    width:268px;
+    height:38px;
+    background:url("../img/pencel2.png") no-repeat;
+    position:absolute;
+    transition:1s;
+    left:300px;
+    top:250px;
+}
+#conWrap .conList .works .pencel3{
+    width:441px;
+    height:231px;
+    background:url("../img/pencel3.png") no-repeat;
+    position:absolute;
+    transition:1s;
+    left:650px;
+    top:300px;
+}
 /*第四屏*/
+#conWrap .conList .about{
+    overflow: hidden;
+}
 #conWrap .conList .about .about1{
     margin: 50px 0 100px 50px;
 }
@@ -366,6 +470,7 @@ img{display: block;}
     border: 5px solid rgba(255,255,255,0.5);
     border-radius: 8px;
     z-index: 5;
+    transition: 1s;
 }
 #conWrap .conList .about .about3 .about3Item:nth-child(1){
     left: 750px;
@@ -434,11 +539,13 @@ img{display: block;}
     float: left;
     margin: 50px;
     width: 400px;
+    transition: 1s;
 }
 #conWrap .conList .team .team2{
     float: right;
     margin: 50px;
     width: 400px;
+    transition: 1s;
 }
 #conWrap .conList .team .team3{
     position: absolute;
